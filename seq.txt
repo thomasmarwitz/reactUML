@@ -1,5 +1,16 @@
 @startuml
 skinparam dpi 300
+
+class Redux << (P,yellow) Provider>> {
+    ~store
+}
+
+class RadarContainer << (C,red) container>> {
+    ~store
+    ==state==
+    ==props==
+}
+
 class Display << (C,blue) component >> {
     ==state==
     ==props==
@@ -10,5 +21,26 @@ class Display << (C,blue) component >> {
     # hubRadius: number
 }
 
+class RadarControls << (C,blue) component >> {
+    ==state==
+    ==props==
+    # controls:array
+    # controlHandler()
+    ==methods==
+    +handleToggleEvents()
+}
+class Toggle << (C,blue) component >> {
+    ==state==
+    # value
+    ==props==
+    # id: number
+    # label: string
+    # onClick()
+}
+RadarControls o-- Toggle
+RadarControls "handleToggleEvents" <.. "onClick" Toggle
 
+RadarContainer *-- SweepContainer
+RadarContainer *-- ControlContainer
+RadarContainer o-- Display
 @enduml
