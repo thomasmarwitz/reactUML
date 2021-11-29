@@ -1,6 +1,6 @@
 @startuml
 title Radar
-
+skinparam dpi 300
 class Redux << (P,yellow) Provider>> {
     ~store
 }
