@@ -1,5 +1,5 @@
 @startuml
-skinparam dpi 300
+title Radar
 
 class Redux << (P,yellow) Provider>> {
     ~store
@@ -7,12 +7,27 @@ class Redux << (P,yellow) Provider>> {
 
 class RadarContainer << (C,red) container>> {
     ~store
-    ==state==
+}
+
+class ControlContainer << (C,red) container>> {
+    ~store
+    ==methods==
+    +handleEvents()
+}
+
+class SweepContainer << (C,red) container>> {
+    ~store
     ==props==
+    # radius:number
+    # hubRadius: number
+}
+
+class Bezel << (C,blue) component >> {
+    ==props==
+    # radius: number
 }
 
 class Display << (C,blue) component >> {
-    ==state==
     ==props==
     # svgHeight: number
     # svgWidth: number
@@ -21,14 +36,24 @@ class Display << (C,blue) component >> {
     # hubRadius: number
 }
 
+class Hub << (C,blue) component >> {
+    ==props==
+    # radius:number
+}
+
+class Sweep << (C,blue) component >> {
+    ==props==
+    #dim:object
+}
+
 class RadarControls << (C,blue) component >> {
-    ==state==
     ==props==
     # controls:array
     # controlHandler()
     ==methods==
     +handleToggleEvents()
 }
+
 class Toggle << (C,blue) component >> {
     ==state==
     # value
@@ -37,10 +62,26 @@ class Toggle << (C,blue) component >> {
     # label: string
     # onClick()
 }
+
+class "StartStop:Toggle" << (C,lightblue) instance >>
+
+Redux <..> RadarContainer
+Redux <..> ControlContainer
+Redux <..> SweepContainer
+RadarContainer *-- SweepContainer
+RadarContainer *-- ControlContainer
+
+RadarContainer o-- Display
+
+Display o-- Bezel
+Display o-- Hub
+
+SweepContainer o-- Sweep
+
+ControlContainer o-- RadarControls
+ControlContainer "handleEvents" <.. "controlHandler" RadarControls
 RadarControls o-- Toggle
 RadarControls "handleToggleEvents" <.. "onClick" Toggle
 
-RadarContainer *-- SweepContainer
-RadarContainer *-- ControlContainer
-RadarContainer o-- Display
+Toggle <|-- "StartStop:Toggle"
 @enduml
