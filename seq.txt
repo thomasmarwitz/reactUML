@@ -1,0 +1,14 @@
+@startuml
+skinparam dpi 300
+class Display << (C,blue) component >> {
+    ==state==
+    ==props==
+    # svgHeight: number
+    # svgWidth: number
+    # diameter: number
+    # radius: number
+    # hubRadius: number
+}
+
+
+@enduml
