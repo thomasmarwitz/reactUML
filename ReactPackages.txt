@@ -1,0 +1,10 @@
+@startuml
+title o3as
+skinparam dpi 300
+
+class App << (C,blue) container>> {
+    ==methods==
+    ==props==
+}
+
+@enduml
