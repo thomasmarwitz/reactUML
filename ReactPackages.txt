@@ -27,4 +27,6 @@ package "node modules" {
 
 }
 
+"apexcharts" <..> "Chart"
+
 @enduml
