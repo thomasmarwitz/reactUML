@@ -2,16 +2,19 @@
 title o3as
 skinparam dpi 300
 
-class "App" << (C,blue) container>> {
+package "GUI" {
+    class "App" << (C,blue) container>> {
 
-}
+    }
 
-class "Chart" << (C, blue) component>> {
-    ==props==
-    #options
-    #series
-    #type
-    #width
+    class "Chart" << (C, blue) component>> {
+        ==props==
+        #options
+        #series
+        #type
+        #width
+    }
+
 }
 
 package "node modules" {
