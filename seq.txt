@@ -46,7 +46,8 @@ class Sweep << (C,blue) component >> {
     #dim:object
 }
 
-class RadarControls << (C,blue) component >> {
+package "Test Package" {
+    class RadarControls << (C,blue) component >> {
     ==props==
     # controls:array
     # controlHandler()
@@ -61,6 +62,8 @@ class Toggle << (C,blue) component >> {
     # id: number
     # label: string
     # onClick()
+}
+
 }
 
 class "StartStop:Toggle" << (C,lightblue) instance >>
