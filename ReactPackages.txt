@@ -56,5 +56,6 @@ package "node modules" {
 
 "apexcharts" <..> "Chart"
 "o3as" <..> "APIFormatter"
+"pdfCreator" <..> "pdfmake"
 
 @enduml
