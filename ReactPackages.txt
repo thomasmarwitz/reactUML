@@ -17,6 +17,30 @@ package "GUI" {
 
 }
 
+package "Formatting" {
+    class "OptionsFormatter" << (J, yellow) utils >> {
+
+    }
+
+    class "APIFormatter" << (J, yellow) utils >> {
+
+    }
+}
+
+package "API" {
+
+    class "o3as" << (A, purple) api >> {
+
+    }
+
+}
+
+package "Export" {
+    class "pdfCreator" <<(J, yellow) utils >> {
+
+    }
+}
+
 package "node modules" {
 
     class "pdfmake" << (N, green) library >> {
@@ -31,5 +55,6 @@ package "node modules" {
 }
 
 "apexcharts" <..> "Chart"
+"o3as" <..> "APIFormatter"
 
 @enduml
