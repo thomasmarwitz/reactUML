@@ -141,7 +141,7 @@ def generate_connections(components):
     
     connections = []
     for comp in components:
-        #print(comp.name + ": " + repr(comp.children))
+        print(comp.name + ": " + repr(comp.children))
         for child in comp.children:
             connections.append(f"{comp.name} {CONNECTION_TYPE} {child}")
 
