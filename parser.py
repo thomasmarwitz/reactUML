@@ -54,8 +54,8 @@ class ReactComponent:
         
 
     def parseChildren(self):
-        pass
-
+        # global var of all components has to be defined
+        self.children = [component for component in COMPONENT_NAMES if component in self.content and component != self.name]
 
 
     def __str__(self):
@@ -97,7 +97,7 @@ files = [f for f in all_files if f.name.endswith(".js")]
 
 
 components = [parse_file(f) for f in files]
-componentNames = [comp.name for comp in components if comp]
+COMPONENT_NAMES = [comp.name for comp in components if comp]
 components = [comp for comp in components if comp]
 
 for comp in components:
@@ -105,5 +105,6 @@ for comp in components:
     #print(comp.name)
     #print(comp.props)
     comp.parseMethods()
-    print(comp.name + ": " + repr(comp.methods))
+    comp.parseChildren()
+    print(comp.name + ": " + repr(comp.children))
 
