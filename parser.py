@@ -39,6 +39,10 @@ class ReactComponent:
             if mo:
                 self.state.append(mo.group(1))
 
+    def parseProps(self):
+        regex = f"{self.propName}\\.(\w+)"
+        print(re.findall(regex, self.content[self.index]))
+
         
 
 
@@ -87,5 +91,6 @@ print(componentNames)
 comp = components[0]
 comp.parseDocstring()
 comp.parseState()
-print(comp.state)
+#print(comp.state)
+comp.parseProps()
 
