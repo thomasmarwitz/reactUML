@@ -9,6 +9,7 @@ class ReactComponent:
         self.file = file
         self.propName = propName
         self.content = open(self.file, "r", encoding="utf8").read()
+        self.index = self.content.index(self.name)
         self.docstring = "<<empty>>"
         self.props = []
         self.state = []
@@ -16,17 +17,26 @@ class ReactComponent:
         self.children = []
 
     def parseDocstring(self):
-        index = self.content.index(self.name) # fetch first javadoc before comment
-        doc_index = self.content[:index].rfind("/**")
+         # fetch first javadoc before comment
+        doc_index = self.content[:self.index].rfind("/**")
         if doc_index == -1:
             return
-        end_index = self.content[doc_index:index].find("*/") + doc_index # no cut of
+        end_index = self.content[doc_index:self.index].find("*/") + doc_index # no cut of
         
         javadoc = self.content[doc_index:end_index].split("\n")
         # transform javadoc
         trailing_stars = [line.strip() for line in javadoc[1:] if line.strip() != "*"]
         plain_text = [line[1:].strip() for line in trailing_stars if line.startswith("*")]
         self.docstring = "\n".join(plain_text)
+
+    def parseState(self):
+        start_index = self.content[self.index:].find("{")
+        end_index = self.content[self.index:].find("return")
+        lines = self.content[start_index:end_index]
+        for line in lines:
+            mo = re.search(r"const\s*\[\s*(\w+)\s*,\s*\w+\s*\]\s*=\s*React.useState\(.*", line)
+            if mo:
+                self.state.append(mo.group(1))
 
         
 
@@ -75,5 +85,6 @@ print(componentNames)
 
 comp = components[0]
 comp.parseDocstring()
-print(comp.docstring)
+comp.parseState()
+print(comp.state)
 
