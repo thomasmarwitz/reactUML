@@ -128,25 +128,27 @@ for comp in components:
     comp.parseChildren()
     all_uml.append(comp.to_plant_uml())
 
-
-start = ("@startuml", "title Title", "skinparam dpi 300")
-end = "\n@enduml"
-
-diagram_txt = "\n".join(start) + "\n" + "\n\n".join(all_uml) + end
-
 CONNECTION_TYPE = "o--"
 
 def generate_connections(components):
     
     connections = []
     for comp in components:
-        print(comp.name + ": " + repr(comp.children))
+        #print(comp.name + ": " + repr(comp.children))
         for child in comp.children:
             connections.append(f"{comp.name} {CONNECTION_TYPE} {child}")
 
     return connections
             
-print(generate_connections(components))
 
-#open("generated.txt", "w").write(diagram_txt)
+
+start = "\n".join(("@startuml", "title Title", "skinparam dpi 300"))
+end = "\n@enduml"
+all_classes = "\n\n".join(all_uml)
+all_connections = "\n".join(generate_connections(components))
+diagram_txt = "\n".join((start, all_classes, all_connections, end))
+
+
+
+open("generated.txt", "w").write(diagram_txt)
 
