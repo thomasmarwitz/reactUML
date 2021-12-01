@@ -28,6 +28,7 @@ class Bezel << (C,blue) component >> {
 }
 
 class Display << (C,blue) component >> {
+    Eine kleine Beschreibung\n mit mehrzeiligem Text
     ==props==
     # svgHeight: number
     # svgWidth: number
@@ -46,8 +47,8 @@ class Sweep << (C,blue) component >> {
     #dim:object
 }
 
-package "Test Package" {
-    class RadarControls << (C,blue) component >> {
+
+class RadarControls << (C,blue) component >> {
     ==props==
     # controls:array
     # controlHandler()
@@ -62,8 +63,6 @@ class Toggle << (C,blue) component >> {
     # id: number
     # label: string
     # onClick()
-}
-
 }
 
 class "StartStop:Toggle" << (C,lightblue) instance >>
