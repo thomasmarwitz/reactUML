@@ -57,7 +57,7 @@ class ReactComponent:
 
     def parseChildren(self):
         # global var of all components has to be defined
-        self.children = {component for component in COMPONENT_NAMES if component in self.content and component != self.name}
+        self.children = {component for component in COMPONENT_NAMES if f"<{component} " in self.content and component != self.name} # <comp(blenk) to see if correct comp
 
 
     def __str__(self):
