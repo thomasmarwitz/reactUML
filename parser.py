@@ -13,7 +13,7 @@ class ReactComponent:
         self.docstring = "<<empty>>"
         self.props = []
         self.state = []
-        self.callbacks = []
+        self.methods = []
         self.children = []
 
     def parseDocstring(self):
@@ -40,10 +40,16 @@ class ReactComponent:
                 self.state.append(mo.group(1))
 
     def parseProps(self):
+        if not self.propName:
+            return
         regex = f"{self.propName}\\.(\w+)"
-        print(re.findall(regex, self.content[self.index]))
+        self.props = set(re.findall(regex, self.content[self.index:]))
 
-        
+    def parseMethods(self):
+        pass
+
+    def parseChildren(self):
+        pass
 
 
     def __str__(self):
@@ -66,7 +72,7 @@ def parse_file(fileObj):
     data = get_component_info(lines)
     if not data:
         return
-    react_comp = ReactComponent(name=data[0], propName=data[0], file=fileObj.path)
+    react_comp = ReactComponent(name=data[0], propName=data[1], file=fileObj.path)
     return react_comp
     
    
@@ -88,9 +94,10 @@ components = [parse_file(f) for f in files]
 componentNames = [comp.name for comp in components if comp]
 print(componentNames)
 
-comp = components[0]
-comp.parseDocstring()
-comp.parseState()
-#print(comp.state)
-comp.parseProps()
+for comp in components:
+    if not comp:
+        continue
+    comp.parseProps()
+    print(comp.name)
+    print(comp.props)
 
