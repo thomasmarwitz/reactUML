@@ -2,7 +2,10 @@
 title Title
 skinparam dpi 300
 class "FilterData" << (C,blue) component >> {
-    <<empty>>
+    Test Description
+Diese App macht blablbabla
+Bsp: lol
+@returns blub
     ==props==
 
     ==state==
@@ -16,7 +19,7 @@ class "FilterData" << (C,blue) component >> {
 }
 
 class "Appbar" << (C,blue) component >> {
-    <<empty>>
+    Short description of app
     ==props==
     #open
     #handleDrawerOpen
@@ -51,8 +54,8 @@ class "ModelModal" << (C,blue) component >> {
     <<empty>>
     ==props==
     #addModelGroup
-    #open
     #handleClose
+    #open
     ==state==
     #checked
     #left
@@ -72,8 +75,8 @@ class "ModelModal" << (C,blue) component >> {
 class "DrawerRight" << (C,blue) component >> {
     <<empty>>
     ==props==
-    #open
     #handleDrawerClose
+    #open
     ==state==
     #expanded
     ==methods==
@@ -119,7 +122,8 @@ class "Menu" << (C,blue) component >> {
 }
 
 class "App" << (C,blue) component >> {
-    <<empty>>
+    Hallo ich bin eine Beschreibung im JSDOC
+sogar mehrzeilig
     ==props==
 
     ==state==

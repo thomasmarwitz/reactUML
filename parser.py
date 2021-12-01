@@ -11,7 +11,7 @@ class ReactComponent:
         self.file = file
         self.propName = propName
         self.content = open(self.file, "r", encoding="utf8").read()
-        self.index = self.content.index(self.name)
+        self.index = re.search(f".*function\s+{self.name}\s*\((\w*)\)\s*.*", self.content).span()[0]
         self.docstring = "<<empty>>"
         self.props = set()
         self.state = []
@@ -20,12 +20,15 @@ class ReactComponent:
 
     def parseDocstring(self):
          # fetch first javadoc before comment
+        
         doc_index = self.content[:self.index].rfind("/**")
+        #print(self.content[:self.index])
         if doc_index == -1:
             return
         end_index = self.content[doc_index:self.index].find("*/") + doc_index # no cut of
         
         javadoc = self.content[doc_index:end_index].split("\n")
+        #print(javadoc)
         # transform javadoc
         trailing_stars = [line.strip() for line in javadoc[1:] if line.strip() != "*"]
         plain_text = [line[1:].strip() for line in trailing_stars if line.startswith("*")]
@@ -92,6 +95,7 @@ File = namedtuple("File", ("name", "path"))
 def get_component_info(lines):
     for line in lines:
         mo = re.search(".*function\s+(\w+)\s*\((\w*)\)\s*.*", line)
+        #print(mo)
         if mo:
             if mo.group(1)[0].isupper(): # assumes that only react components start with Uppercase
                 return (mo.group(1), mo.group(2))
@@ -133,6 +137,13 @@ for comp in components:
     comp.parseState()
     comp.parseMethods()
     comp.parseChildren()
+    #print("\n"*5)
+    comp.parseDocstring()
+    #if comp.name == "App":
+        
+        #print(comp.docstring)
+        #raise SystemError
+
     all_uml.append(comp.to_plant_uml())
 
 CONNECTION_TYPE = "o--"
@@ -141,7 +152,7 @@ def generate_connections(components):
     
     connections = []
     for comp in components:
-        print(comp.name + ": " + repr(comp.children))
+        #print(comp.name + ": " + repr(comp.children))
         for child in comp.children:
             connections.append(f"{comp.name} {CONNECTION_TYPE} {child}")
 
