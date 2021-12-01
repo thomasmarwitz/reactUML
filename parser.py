@@ -30,9 +30,10 @@ class ReactComponent:
         self.docstring = "\n".join(plain_text)
 
     def parseState(self):
-        start_index = self.content[self.index:].find("{")
-        end_index = self.content[self.index:].find("return")
-        lines = self.content[start_index:end_index]
+        start_index = self.content[self.index:].find("{")       + self.index
+        end_index = self.content[self.index:].find("return")    + self.index
+        
+        lines = self.content[start_index:end_index].split("\n")
         for line in lines:
             mo = re.search(r"const\s*\[\s*(\w+)\s*,\s*\w+\s*\]\s*=\s*React.useState\(.*", line)
             if mo:
