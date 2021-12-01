@@ -142,8 +142,11 @@ def generate_connections(components):
     for comp in components:
         print(comp.name + ": " + repr(comp.children))
         for child in comp.children:
-            f"{} {CONNECTION_TYPE} {}"
-generate_connections(components)
+            connections.append(f"{comp.name} {CONNECTION_TYPE} {child}")
+
+    return connections
+            
+print(generate_connections(components))
 
 #open("generated.txt", "w").write(diagram_txt)
 
