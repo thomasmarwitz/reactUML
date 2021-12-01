@@ -11,7 +11,7 @@ class ReactComponent:
         self.content = open(self.file, "r", encoding="utf8").read()
         self.index = self.content.index(self.name)
         self.docstring = "<<empty>>"
-        self.props = []
+        self.props = {}
         self.state = []
         self.methods = []
         self.children = []
@@ -46,10 +46,16 @@ class ReactComponent:
         self.props = set(re.findall(regex, self.content[self.index:]))
 
     def parseMethods(self):
-        pass
+        start_index = self.content[self.index:].find("{")       + self.index
+        end_index = self.content[self.index:].find("return")    + self.index
+        function_regex = r"const\s*(\w+)\s*=\s*\([^\)]*\)\s*=>"
+        
+        self.methods = re.findall(function_regex, self.content[start_index:end_index])
+        
 
     def parseChildren(self):
         pass
+
 
 
     def __str__(self):
@@ -95,7 +101,9 @@ componentNames = [comp.name for comp in components if comp]
 components = [comp for comp in components if comp]
 
 for comp in components:
-    comp.parseProps()
-    print(comp.name)
-    print(comp.props)
+    #comp.parseProps()
+    #print(comp.name)
+    #print(comp.props)
+    comp.parseMethods()
+    print(comp.name + ": " + repr(comp.methods))
 
