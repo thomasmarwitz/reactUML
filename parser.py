@@ -92,11 +92,9 @@ files = [f for f in all_files if f.name.endswith(".js")]
 
 components = [parse_file(f) for f in files]
 componentNames = [comp.name for comp in components if comp]
-print(componentNames)
+components = [comp for comp in components if comp]
 
 for comp in components:
-    if not comp:
-        continue
     comp.parseProps()
     print(comp.name)
     print(comp.props)
