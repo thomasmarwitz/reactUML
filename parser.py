@@ -13,10 +13,10 @@ class ReactComponent:
         self.content = open(self.file, "r", encoding="utf8").read()
         self.index = self.content.index(self.name)
         self.docstring = "<<empty>>"
-        self.props = {}
+        self.props = set()
         self.state = []
         self.methods = []
-        self.children = {}
+        self.children = []
 
     def parseDocstring(self):
          # fetch first javadoc before comment
