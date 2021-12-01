@@ -2,6 +2,8 @@ from collections import namedtuple
 import os
 import re
 
+WHITE_SPACES = " " * 4
+
 class ReactComponent:
     #name, propName, props, state, callbacks, docstring
     def __init__(self, name, propName, file):
@@ -14,7 +16,7 @@ class ReactComponent:
         self.props = {}
         self.state = []
         self.methods = []
-        self.children = []
+        self.children = {}
 
     def parseDocstring(self):
          # fetch first javadoc before comment
@@ -55,11 +57,25 @@ class ReactComponent:
 
     def parseChildren(self):
         # global var of all components has to be defined
-        self.children = [component for component in COMPONENT_NAMES if component in self.content and component != self.name]
+        self.children = {component for component in COMPONENT_NAMES if component in self.content and component != self.name}
 
 
     def __str__(self):
         return f"{self.name}, {self.propName}, {self.file}"
+
+    def to_plant_uml(self):
+        
+        
+        desc = WHITE_SPACES + self.docstring
+        # props
+        props = "==props==\n" + "\n".join([WHITE_SPACES + "#" + prop for prop in self.props])
+        state = "==state==\n" + "\n".join([WHITE_SPACES + "#" + state for state in self.state])
+        methods = "==methods==\n" + "\n".join([WHITE_SPACES + "+" + method for method in self.methods])
+        
+        body = f"\n{WHITE_SPACES}".join((desc, props, state, methods))
+        header_body = f"class \"{self.name}\" << (C,blue) component >> {{\n{body}\n}}"
+        return header_body
+    
 
 
 BASE_DIR = "../pse-prototype/src"
@@ -100,11 +116,34 @@ components = [parse_file(f) for f in files]
 COMPONENT_NAMES = [comp.name for comp in components if comp]
 components = [comp for comp in components if comp]
 
+
+all_uml = []
 for comp in components:
     #comp.parseProps()
     #print(comp.name)
     #print(comp.props)
+    comp.parseProps()
+    comp.parseState()
     comp.parseMethods()
     comp.parseChildren()
-    print(comp.name + ": " + repr(comp.children))
+    all_uml.append(comp.to_plant_uml())
+
+
+start = ("@startuml", "title Title", "skinparam dpi 300")
+end = "\n@enduml"
+
+diagram_txt = "\n".join(start) + "\n" + "\n\n".join(all_uml) + end
+
+CONNECTION_TYPE = "o--"
+
+def generate_connections(components):
+    
+    connections = []
+    for comp in components:
+        print(comp.name + ": " + repr(comp.children))
+        for child in comp.children:
+            f"{} {CONNECTION_TYPE} {}"
+generate_connections(components)
+
+#open("generated.txt", "w").write(diagram_txt)
 
