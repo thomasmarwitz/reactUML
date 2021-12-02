@@ -1,6 +1,7 @@
 from collections import namedtuple
 import os
 import re
+from sre_constants import CALL
 
 WHITE_SPACES = " " * 4
 
@@ -16,7 +17,9 @@ class ReactComponent:
         self.props = set()
         self.state = []
         self.methods = []
+        self.callbacks = [] # only one layer above
         self.children = []
+        self.parent = None
 
     def parseDocstring(self):
          # fetch first javadoc before comment
@@ -69,6 +72,11 @@ class ReactComponent:
         
         #self.children = {component for component in COMPONENT_NAMES if f"<{component} " in self.content and component != self.name} # <comp(blenk) to see if correct comp
 
+    def parseCallbacks(self):
+        # call after parent and props and methods have been parsed
+        for prop in self.props:
+            if prop in self.parent.methods:
+                self.callbacks.append(prop)
 
     def __str__(self):
         return f"{self.name}, {self.propName}, {self.file}"
@@ -124,13 +132,11 @@ files = [f for f in all_files if f.name.endswith(".js")]
 
 
 components = [parse_file(f) for f in files]
-COMPONENT_NAMES = [comp.name for comp in components if comp]
+components = [comp for comp in components if comp] # exclude None
+
 COMPONENT_MAP = {}
 for comp in components:
     COMPONENT_MAP[comp.name] = comp
-
-components = [comp for comp in components if comp]
-
 
 all_uml = []
 for comp in components:
@@ -150,10 +156,19 @@ for comp in components:
 
     all_uml.append(comp.to_plant_uml())
 
+# parse parents
+for comp in components:
+    for child in comp.children:
+        COMPONENT_MAP[child].parent = comp
+
+# parse callbacks (lookup one layer above)
+for comp in components:
+    comp.parseCallbacks()
+
 CONNECTION_TYPE = "o--"
+CALLBACK_TYPE   = "<.."
 
 def generate_connections(components):
-    
     connections = []
     for comp in components:
         #print(comp.name + ": " + repr(comp.children))
@@ -161,14 +176,20 @@ def generate_connections(components):
             connections.append(f"{comp.name} {CONNECTION_TYPE} {child}")
 
     return connections
-            
 
+def generate_callbacks(components):
+    callbacks = []
+    for comp in components:
+        for callback in comp.callbacks:
+            callbacks.append(f"{comp.parent.name} \"{callback}\" {CALLBACK_TYPE} {comp.name}") # savely access comp.parent, bc otherwise there would be no callbacks
+    return callbacks
 
 start = "\n".join(("@startuml", "title Title", "skinparam dpi 300"))
 end = "\n@enduml"
 all_classes = "\n\n".join(all_uml)
 all_connections = "\n".join(generate_connections(components))
-diagram_txt = "\n".join((start, all_classes, all_connections, end))
+all_callbacks = "\n".join(generate_callbacks(components))
+diagram_txt = "\n".join((start, all_classes, all_connections, all_callbacks, end))
 
 
 

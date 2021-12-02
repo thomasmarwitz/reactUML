@@ -21,8 +21,8 @@ Bsp: lol
 class "Appbar" << (C,blue) component >> {
     Short description of app
     ==props==
-    #open
     #handleDrawerOpen
+    #open
     ==state==
 
     ==methods==
@@ -53,9 +53,9 @@ class "Models" << (C,blue) component >> {
 class "ModelModal" << (C,blue) component >> {
     <<empty>>
     ==props==
+    #open
     #addModelGroup
     #handleClose
-    #open
     ==state==
     #checked
     #left
@@ -75,8 +75,8 @@ class "ModelModal" << (C,blue) component >> {
 class "DrawerRight" << (C,blue) component >> {
     <<empty>>
     ==props==
-    #handleDrawerClose
     #open
+    #handleDrawerClose
     ==state==
     #expanded
     ==methods==
@@ -151,5 +151,8 @@ Specifics o-- Datagrid
 Menu o-- Specifics
 App o-- Appbar
 App o-- DrawerRight
+App "handleDrawerOpen" <.. Appbar
+Models "addModelGroup" <.. ModelModal
+App "handleDrawerClose" <.. DrawerRight
 
 @enduml
