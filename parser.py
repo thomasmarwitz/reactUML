@@ -88,7 +88,7 @@ class ReactComponent:
         # props
         props = "==props==\n" + "\n".join([WHITE_SPACES + "#" + prop for prop in self.props])
         state = "==state==\n" + "\n".join([WHITE_SPACES + "#" + state for state in self.state])
-        methods = "==methods==\n" + "\n".join([WHITE_SPACES + "+" + method for method in self.methods])
+        methods = "==methods==\n" + "\n".join([WHITE_SPACES + "+" + method + f" ({index})" for index, method in enumerate(self.methods)])
         
         body = f"\n{WHITE_SPACES}".join((desc, props, state, methods))
         header_body = f"class \"{self.name}\" << (C,blue) component >> {{\n{body}\n}}"
@@ -180,8 +180,12 @@ def generate_connections(components):
 def generate_callbacks(components):
     callbacks = []
     for comp in components:
-        for callback in comp.callbacks:
-            callbacks.append(f"{comp.parent.name} \"{callback}\" {CALLBACK_TYPE} {comp.name}") # savely access comp.parent, bc otherwise there would be no callbacks
+        if not comp.callbacks:
+            continue
+        cb = [f"({index})" for index, callback in enumerate(comp.callbacks)] # callback list
+        callbacks.append(f"{comp.parent.name} \"{', '.join(cb)}\" {CALLBACK_TYPE} {comp.name}")
+        #for callback in comp.callbacks:
+        #    callbacks.append(f"{comp.parent.name} \"{callback}\" {CALLBACK_TYPE} {comp.name}") # savely access comp.parent, bc otherwise there would be no callbacks
     return callbacks
 
 start = "\n".join(("@startuml", "title Title", "skinparam dpi 300"))

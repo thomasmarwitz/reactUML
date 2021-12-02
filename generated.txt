@@ -12,17 +12,17 @@ Bsp: lol
     #location
     #time
     ==methods==
-    +handleChangeLocation
-    +handleChangeSeasons
-    +handleChangeTime
-    +season
+    +handleChangeLocation (0)
+    +handleChangeSeasons (1)
+    +handleChangeTime (2)
+    +season (3)
 }
 
 class "Appbar" << (C,blue) component >> {
     Short description of app
     ==props==
-    #handleDrawerOpen
     #open
+    #handleDrawerOpen
     ==state==
 
     ==methods==
@@ -47,7 +47,7 @@ class "Models" << (C,blue) component >> {
     #modalOpen
     #modelGroup
     ==methods==
-    +addModelGroup
+    +addModelGroup (0)
 }
 
 class "ModelModal" << (C,blue) component >> {
@@ -62,14 +62,14 @@ class "ModelModal" << (C,blue) component >> {
     #right
     #groupName
     ==methods==
-    +handleToggle
-    +handleAllRight
-    +handleCheckedRight
-    +handleCheckedLeft
-    +handleAllLeft
-    +addNewGroup
-    +updateGroupName
-    +customList
+    +handleToggle (0)
+    +handleAllRight (1)
+    +handleCheckedRight (2)
+    +handleCheckedLeft (3)
+    +handleAllLeft (4)
+    +addNewGroup (5)
+    +updateGroupName (6)
+    +customList (7)
 }
 
 class "DrawerRight" << (C,blue) component >> {
@@ -80,7 +80,7 @@ class "DrawerRight" << (C,blue) component >> {
     ==state==
     #expanded
     ==methods==
-    +handleChange
+    +handleChange (0)
 }
 
 class "Specifics" << (C,blue) component >> {
@@ -92,13 +92,13 @@ class "Specifics" << (C,blue) component >> {
     #age
     #open
     ==methods==
-    +handleChange
-    +handleChange1
-    +handleChange2
-    +handleChange3
-    +handleChange4
-    +handleOpen
-    +handleClose
+    +handleChange (0)
+    +handleChange1 (1)
+    +handleChange2 (2)
+    +handleChange3 (3)
+    +handleChange4 (4)
+    +handleOpen (5)
+    +handleClose (6)
 }
 
 class "Appearance" << (C,blue) component >> {
@@ -108,7 +108,7 @@ class "Appearance" << (C,blue) component >> {
     ==state==
     #plot
     ==methods==
-    +handleChange
+    +handleChange (0)
 }
 
 class "Menu" << (C,blue) component >> {
@@ -118,7 +118,7 @@ class "Menu" << (C,blue) component >> {
     ==state==
     #state
     ==methods==
-    +toggleDrawer
+    +toggleDrawer (0)
 }
 
 class "App" << (C,blue) component >> {
@@ -129,8 +129,8 @@ sogar mehrzeilig
     ==state==
     #open
     ==methods==
-    +handleDrawerOpen
-    +handleDrawerClose
+    +handleDrawerOpen (0)
+    +handleDrawerClose (1)
 }
 
 class "Datagrid" << (C,blue) component >> {
@@ -151,8 +151,8 @@ Specifics o-- Datagrid
 Menu o-- Specifics
 App o-- Appbar
 App o-- DrawerRight
-App "handleDrawerOpen" <.. Appbar
-Models "addModelGroup" <.. ModelModal
-App "handleDrawerClose" <.. DrawerRight
+App "(0)" <.. Appbar
+Models "(0)" <.. ModelModal
+App "(0)" <.. DrawerRight
 
 @enduml
