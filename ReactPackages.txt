@@ -25,7 +25,8 @@ package "Formatting" {
     class "APIFormatter" << (J, yellow) utils >> {
         this class formats the request URL and\nperforms a request with the given models
         ==methods==
-        +makeApiRequest(min_lat: number, max_lat: number, month: array)
+        +makeTCM_Request(min_lat: int, max_lat: int, month: array)
+        +makeTCO_Request(min_lat: int, max_lat: int, month: array)
         -formatURL
         -makeRequest
     }
