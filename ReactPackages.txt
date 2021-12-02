@@ -17,30 +17,43 @@ package "GUI" {
 
 }
 
-package "Formatting" {
-    class "OptionsFormatter" << (J, yellow) utils >> {
 
-    }
-
-    class "APIFormatter" << (J, yellow) utils >> {
-        this class formats the request URL and\nperforms a request with the given models
-        ==methods==
-        +makeTCM_Request(min_lat: int, max_lat: int, month: array)
-        +makeTCO_Request(min_lat: int, max_lat: int, month: array)
-        -formatURL
-        -makeRequest
-    }
-}
 
 package "API" {
 
     class "o3as" << (A, purple) api >> {
+        +fetchTCO_return_data
+        +fetchTCO_zm_data
+    }
+
+}
+
+package "Redux" {
+
+    class "Store" << (P, gray) provider >> {
 
     }
 
 }
 
-package "Export" {
+package "Utils" {
+
+    package "Formatting" {
+        class "OptionsFormatter" << (J, yellow) utils >> {
+
+        }
+
+        class "APIFormatter" << (J, yellow) utils >> {
+            this class formats the request URL and\nperforms a request with the given models
+            ==methods==
+            +makeTCM_Request(min_lat: int, max_lat: int, month: array)
+            +makeTCO_Request(min_lat: int, max_lat: int, month: array)
+            -formatURL
+            -makeRequest
+        }
+    }
+
+    
     class "pdfCreator" <<(J, yellow) utils >> {
         this utility class allows to export\nthe current plot as a pdf file
         ==methods==
@@ -48,6 +61,7 @@ package "Export" {
         - formatBoxPlot
         - formatLinePlot
     }
+    
 }
 
 package "node modules" {
@@ -66,5 +80,7 @@ package "node modules" {
 "apexcharts" <..> "Chart"
 "o3as" <..> "APIFormatter"
 "pdfCreator" <..> "pdfmake"
+"Store" <..> "App"
+"App" o-- "Chart"
 
 @enduml
