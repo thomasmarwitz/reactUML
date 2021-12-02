@@ -61,7 +61,7 @@ class ReactComponent:
     def parseChildren(self):
         # global var of all components has to be defined
 
-        for component in COMPONENT_NAMES:
+        for component in COMPONENT_MAP.keys():
             if component == self.name:
                 continue
             if re.search(f"<{component}(\s|>)", self.content, re.IGNORECASE):
@@ -125,6 +125,10 @@ files = [f for f in all_files if f.name.endswith(".js")]
 
 components = [parse_file(f) for f in files]
 COMPONENT_NAMES = [comp.name for comp in components if comp]
+COMPONENT_MAP = {}
+for comp in components:
+    COMPONENT_MAP[comp.name] = comp
+
 components = [comp for comp in components if comp]
 
 
