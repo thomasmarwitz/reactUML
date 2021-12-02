@@ -23,7 +23,11 @@ package "Formatting" {
     }
 
     class "APIFormatter" << (J, yellow) utils >> {
-
+        this class formats the request URL and\nperforms a request with the given models
+        ==methods==
+        +makeApiRequest(min_lat: number, max_lat: number, month: array)
+        -formatURL
+        -makeRequest
     }
 }
 
@@ -37,7 +41,11 @@ package "API" {
 
 package "Export" {
     class "pdfCreator" <<(J, yellow) utils >> {
-
+        this utility class allows to export\nthe current plot as a pdf file
+        ==methods==
+        + createPdfFromCurrentPlot
+        - formatBoxPlot
+        - formatLinePlot
     }
 }
 
